@@ -38,8 +38,8 @@ public class User {
     private String email;
 
     @NotBlank(message = "Password field cannot be blank.")
-    @Column(name = "password_hash", nullable = false)
-    private String passwordHash;
+    @Column(name = "password", nullable = false)
+    private String password;
 
     @Size(max = 50, message = "First name cannot be longer than 50 characters.")
     @Column(name = "first_name")
@@ -51,6 +51,10 @@ public class User {
 
     @Column(name = "profile_image_url")
     private String profileImageUrl;
+
+    @Column(name = "role")
+    private String role;
+
 
     @NotNull
     @Column(name = "total_distance", precision = 10, scale = 2)

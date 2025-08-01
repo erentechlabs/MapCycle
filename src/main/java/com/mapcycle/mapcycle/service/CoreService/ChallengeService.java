@@ -1,4 +1,4 @@
-package com.mapcycle.mapcycle.service.CoreService;
+package com.mapcycle.mapcycle.service.coreservice;
 
 public class ChallengeService {
 }

@@ -1,4 +1,4 @@
-package com.mapcycle.mapcycle.service.UtilityServices;
+package com.mapcycle.mapcycle.service.utilityservices;
 
 public class AnalyticsService {
 }
