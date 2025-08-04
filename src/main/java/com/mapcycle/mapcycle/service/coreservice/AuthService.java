@@ -11,7 +11,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
 @Service
-public class UserService {
+public class AuthService {
 
     @Autowired
     UserRepository userRepository;
@@ -22,15 +22,18 @@ public class UserService {
     @Autowired
     AuthenticationManager authenticationManager;
 
+    // Register a new user
     public User register(User user) {
         return userRepository.save(user);
 
     }
 
+    // Authenticate and generate a JWT token
     public String verify(User user) {
         Authentication authentication =
                 authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(user.getUsername(), user.getPassword()));
 
+        // If authentication is successful, generate a JWT token
         if (authentication.isAuthenticated())
             return jwtProvider.generateToken(user.getUsername());
 
