@@ -1,8 +1,8 @@
 package com.mapcycle.mapcycle.controller;
 
-import com.mapcycle.mapcycle.domain.dto.RideDto;
-import com.mapcycle.mapcycle.service.coreservice.RideService;
-import com.mapcycle.mapcycle.service.coreservice.RideService.RideStats;
+import com.mapcycle.mapcycle.domain.dto.ride.RideDto;
+import com.mapcycle.mapcycle.service.ride.RideService;
+import com.mapcycle.mapcycle.service.ride.RideService.RideStats;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

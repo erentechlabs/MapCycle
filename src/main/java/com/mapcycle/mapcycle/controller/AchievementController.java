@@ -11,10 +11,12 @@ public class AchievementController {
     public String getAchievements() {
         return "Get All Achievements";
     }
+
     @GetMapping("/user")
     public String getUserAchievements() {
         return "Get User Achievements";
     }
+
     @GetMapping("progress")
     public String getAchievementProgress() {
         return "Get Achievement Progress";

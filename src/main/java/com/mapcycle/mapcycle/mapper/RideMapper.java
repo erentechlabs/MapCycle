@@ -2,7 +2,7 @@ package com.mapcycle.mapcycle.mapper;
 
 import com.mapcycle.mapcycle.domain.entities.Ride;
 import com.mapcycle.mapcycle.domain.entities.User;
-import com.mapcycle.mapcycle.domain.dto.RideDto;
+import com.mapcycle.mapcycle.domain.dto.ride.RideDto;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -12,30 +12,30 @@ public class RideMapper {
     public RideDto toDto(Ride ride) {
         if (ride == null) return null;
 
-            return RideDto.builder()
-                    .id(ride.getId())
-                    .userId(ride.getUser() != null ? ride.getUser().getId() : null)
-                    .title(ride.getTitle())
-                    .distance(ride.getDistance())
-                    .duration(ride.getDuration())
-                    .averageSpeed(ride.getAverageSpeed())
-                    .maxSpeed(ride.getMaxSpeed())
-                    .caloriesBurned(ride.getCaloriesBurned())
-                    .elevationGain(ride.getElevationGain())
-                    .startLatitude(ride.getStartLatitude())
-                    .startLongitude(ride.getStartLongitude())
-                    .endLatitude(ride.getEndLatitude())
-                    .endLongitude(ride.getEndLongitude())
-                    .routePolyline(ride.getRoutePolyline())
-                    .startedAt(ride.getStartedAt())
-                    .finishedAt(ride.getFinishedAt())
-                    .createdAt(ride.getCreatedAt())
-                    .build();
+        return RideDto.builder()
+                .id(ride.getId())
+                .userId(ride.getUser() != null ? ride.getUser().getId() : null)
+                .title(ride.getTitle())
+                .distance(ride.getDistance())
+                .duration(ride.getDuration())
+                .averageSpeed(ride.getAverageSpeed())
+                .maxSpeed(ride.getMaxSpeed())
+                .caloriesBurned(ride.getCaloriesBurned())
+                .elevationGain(ride.getElevationGain())
+                .startLatitude(ride.getStartLatitude())
+                .startLongitude(ride.getStartLongitude())
+                .endLatitude(ride.getEndLatitude())
+                .endLongitude(ride.getEndLongitude())
+                .routePolyline(ride.getRoutePolyline())
+                .startedAt(ride.getStartedAt())
+                .finishedAt(ride.getFinishedAt())
+                .createdAt(ride.getCreatedAt())
+                .build();
     }
 
     // Create a Ride entity from a RideDto
     public Ride toEntity(RideDto dto) {
-        if (dto == null) return  null;
+        if (dto == null) return null;
         Ride ride = new Ride();
         ride.setId(dto.getId());
         ride.setTitle(dto.getTitle());

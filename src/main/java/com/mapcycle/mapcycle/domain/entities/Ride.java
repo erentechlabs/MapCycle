@@ -1,4 +1,5 @@
 package com.mapcycle.mapcycle.domain.entities;
+
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.PastOrPresent;

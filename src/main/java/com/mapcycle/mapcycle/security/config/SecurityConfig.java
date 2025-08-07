@@ -29,7 +29,7 @@ public class SecurityConfig {
 
     // Configure security filters
     @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception  {
+    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 
 
         return http

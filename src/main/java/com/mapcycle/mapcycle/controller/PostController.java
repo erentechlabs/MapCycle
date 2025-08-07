@@ -12,38 +12,38 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("api/posts")
 public class PostController {
 
-	@GetMapping("/freed")
-	public String getFreed() {
-		return "Get Freed";
-	}
+    @GetMapping("/freed")
+    public String getFreed() {
+        return "Get Freed";
+    }
 
-	@PostMapping
-	public String createPost() {
-		return "Endpoint for creating a new post";
-	}
+    @PostMapping
+    public String createPost() {
+        return "Endpoint for creating a new post";
+    }
 
-	@PutMapping("/{id}")
-	public String updatePost(@PathVariable Long id) {
-		return "Endpoint for updating post with ID: " + id;
-	}
+    @PutMapping("/{id}")
+    public String updatePost(@PathVariable Long id) {
+        return "Endpoint for updating post with ID: " + id;
+    }
 
-	@DeleteMapping("/{id}")
-	public String deletePost(@PathVariable Long id) {
-		return "Endpoint for deleting post with ID: " + id;
-	}
+    @DeleteMapping("/{id}")
+    public String deletePost(@PathVariable Long id) {
+        return "Endpoint for deleting post with ID: " + id;
+    }
 
-	@PostMapping("/{id}/like")
-	public String likePost(@PathVariable Long id) {
-		return "Endpoint for liking post with ID: " + id;
-	}
+    @PostMapping("/{id}/like")
+    public String likePost(@PathVariable Long id) {
+        return "Endpoint for liking post with ID: " + id;
+    }
 
-	@GetMapping("/{id}/comments")
-	public String getComments(@PathVariable Long id) {
-		return "Endpoint for getting comments for post with ID: " + id;
-	}
+    @GetMapping("/{id}/comments")
+    public String getComments(@PathVariable Long id) {
+        return "Endpoint for getting comments for post with ID: " + id;
+    }
 
-	@PostMapping("/{id}/comments")
-	public String createComment(@PathVariable Long id) {
-		return "Endpoint for creating a comment on post with ID: " + id;
-	}
+    @PostMapping("/{id}/comments")
+    public String createComment(@PathVariable Long id) {
+        return "Endpoint for creating a comment on post with ID: " + id;
+    }
 }

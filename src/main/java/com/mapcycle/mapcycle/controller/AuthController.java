@@ -1,7 +1,7 @@
 package com.mapcycle.mapcycle.controller;
 
 import com.mapcycle.mapcycle.domain.entities.User;
-import com.mapcycle.mapcycle.service.coreservice.AuthService;
+import com.mapcycle.mapcycle.service.user.AuthService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.PostMapping;
