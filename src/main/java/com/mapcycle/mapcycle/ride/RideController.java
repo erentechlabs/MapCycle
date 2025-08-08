@@ -41,7 +41,9 @@ public class RideController {
 
     // Update an existing ride
     @PutMapping("/{id}")
-    public ResponseEntity<RideDto> updateRide(@PathVariable Long id, @Valid @RequestBody RideDto rideDto) {
+    public ResponseEntity<RideDto> updateRide(
+            @PathVariable Long id,
+            @Valid @RequestBody RideDto rideDto) {
         RideDto updated = rideService.updateRide(id, rideDto);
         return ResponseEntity.ok(updated);
     }
