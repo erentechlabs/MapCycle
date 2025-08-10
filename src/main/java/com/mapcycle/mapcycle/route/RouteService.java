@@ -2,9 +2,9 @@ package com.mapcycle.mapcycle.route;
 
 import com.mapcycle.mapcycle.user.User;
 import com.mapcycle.mapcycle.user.UserRepository;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import jakarta.persistence.EntityNotFoundException;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -23,10 +23,7 @@ public class RouteService {
                 .orElseThrow(() -> new EntityNotFoundException("Route not found with id: " + id));
     }
 
-    public List<Route> findNearbyRoutes(
-            BigDecimal latitude,
-            BigDecimal longitude,
-            BigDecimal radiusKm) {
+    public List<Route> findNearbyRoutes(BigDecimal latitude, BigDecimal longitude, BigDecimal radiusKm) {
         return routeRepository.findRoutesWithinRadius(latitude, longitude, radiusKm.doubleValue());
     }
 
@@ -41,21 +38,18 @@ public class RouteService {
         return routeRepository.save(route);
     }
 
-
-    public Route calculateRouteFromPoints(
-            BigDecimal startLat,
-            BigDecimal startLon,
-            BigDecimal endLat,
-            BigDecimal endLon) {
-
-        Route calculatedRoute = new Route();
-        calculatedRoute.setName("Calculated Route");
-        calculatedRoute.setStartLatitude(startLat);
-        calculatedRoute.setStartLongitude(startLon);
-        calculatedRoute.setEndLatitude(endLat);
-        calculatedRoute.setEndLongitude(endLon);
-        calculatedRoute.setIsPublic(false);
-
-        return calculatedRoute;
+    public Route calculateRouteFromPoints(BigDecimal startLat, BigDecimal startLon, BigDecimal endLat, BigDecimal endLon) {
+        return Route.builder()
+                .name("Calculated Route")
+                .startLatitude(startLat)
+                .startLongitude(startLon)
+                .endLatitude(endLat)
+                .endLongitude(endLon)
+                .difficultyLevel(1)
+                .distance(BigDecimal.ZERO)
+                .isPublic(false)
+                .rating(BigDecimal.ZERO)
+                .usageCount(0)
+                .build();
     }
 }

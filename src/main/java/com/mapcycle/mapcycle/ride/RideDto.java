@@ -7,7 +7,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Data
 @Builder
@@ -18,6 +18,7 @@ public class RideDto {
     private Long id;
 
     @NotNull(message = "User ID is required")
+    @Positive(message = "User ID must be a positive number")
     private Long userId;
 
     @Size(max = 255, message = "Title can't be longer than 255 characters")
@@ -61,13 +62,13 @@ public class RideDto {
 
     private String routePolyline;
 
-    @NotNull(message = "Start date is required")
-    @PastOrPresent(message = "Start date must be in the past or present")
-    private LocalDate startedAt;
+    @NotNull(message = "Start date/time is required")
+    @PastOrPresent(message = "Start date/time must be in the past or present")
+    private LocalDateTime startedAt;
 
-    @NotNull(message = "Finish date is required")
-    @PastOrPresent(message = "Finish date must be in the past or present")
-    private LocalDate finishedAt;
+    @NotNull(message = "Finish date/time is required")
+    @PastOrPresent(message = "Finish date/time must be in the past or present")
+    private LocalDateTime finishedAt;
 
-    private LocalDate createdAt;
+    private LocalDateTime createdAt;
 }

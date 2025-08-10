@@ -1,8 +1,7 @@
 package com.mapcycle.mapcycle.ride;
 
-import com.mapcycle.mapcycle.ride.RideService.RideStats;
 import jakarta.validation.Valid;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -11,54 +10,41 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/rides")
+@RequiredArgsConstructor
 public class RideController {
 
-    @Autowired
-    RideService rideService;
+    private final RideService rideService;
 
-
-    // Get all rides
     @GetMapping
     public ResponseEntity<List<RideDto>> getAllRides() {
-        List<RideDto> rides = rideService.getAllRides();
-        return ResponseEntity.ok(rides);
+        return ResponseEntity.ok(rideService.getAllRides());
     }
 
-
-    // Get a specific ride by ID
     @GetMapping("/{id}")
     public ResponseEntity<RideDto> getRideById(@PathVariable Long id) {
-        RideDto ride = rideService.getRideById(id);
-        return ResponseEntity.ok(ride);
+        return ResponseEntity.ok(rideService.getRideById(id));
     }
 
-    // Create a new ride
     @PostMapping
     public ResponseEntity<RideDto> createRide(@Valid @RequestBody RideDto rideDto) {
         RideDto created = rideService.createRide(rideDto);
         return new ResponseEntity<>(created, HttpStatus.CREATED);
     }
 
-    // Update an existing ride
     @PutMapping("/{id}")
-    public ResponseEntity<RideDto> updateRide(
-            @PathVariable Long id,
-            @Valid @RequestBody RideDto rideDto) {
-        RideDto updated = rideService.updateRide(id, rideDto);
-        return ResponseEntity.ok(updated);
+    public ResponseEntity<RideDto> updateRide(@PathVariable Long id,
+                                              @Valid @RequestBody RideDto rideDto) {
+        return ResponseEntity.ok(rideService.updateRide(id, rideDto));
     }
 
-    // Delete a ride
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteRide(@PathVariable Long id) {
         rideService.deleteRide(id);
         return ResponseEntity.noContent().build();
     }
 
-    // Get ride stats for a user
     @GetMapping("/stats/{userId}")
-    public ResponseEntity<RideStats> getRideStats(@PathVariable Long userId) {
-        RideStats stats = rideService.getRideStats(userId);
-        return ResponseEntity.ok(stats);
+    public ResponseEntity<RideService.RideStats> getRideStats(@PathVariable Long userId) {
+        return ResponseEntity.ok(rideService.getRideStats(userId));
     }
 }

@@ -1,5 +1,8 @@
-package com.mapcycle.mapcycle.shared.exception;
+package com.mapcycle.mapcycle.challenge;
 
+import com.mapcycle.mapcycle.shared.exception.ApiError;
+import jakarta.persistence.EntityNotFoundException;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -27,5 +30,20 @@ public class GlobalExceptionHandler {
         );
 
         return ResponseEntity.badRequest().body(apiError);
+    }
+
+    @ExceptionHandler(EntityNotFoundException.class)
+    public ResponseEntity<ApiError> handleEntityNotFound(EntityNotFoundException ex) {
+        Map<String, List<String>> errorsMap = Map.of(
+                "error", List.of(ex.getMessage())
+        );
+
+        ApiError apiError = new ApiError(
+                UUID.randomUUID().toString(),
+                new Date(),
+                errorsMap
+        );
+
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(apiError);
     }
 }

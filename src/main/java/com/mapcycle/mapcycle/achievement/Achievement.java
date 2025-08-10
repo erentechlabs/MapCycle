@@ -13,12 +13,8 @@ import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
 
 import java.math.BigDecimal;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
-/**
- * JPA Entity class representing the 'achievements' table.
- * Contains the definition and requirements for all achievements in the system.
- */
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -44,7 +40,7 @@ public class Achievement {
     private String iconUrl;
 
     @NotNull(message = "Achievement type must be specified.")
-    @Enumerated(EnumType.STRING) // Ensures the enum is stored as a String in the DB.
+    @Enumerated(EnumType.STRING)
     @Column(name = "achievement_type", nullable = false)
     private AchievementType achievementType;
 
@@ -60,5 +56,5 @@ public class Achievement {
 
     @CreationTimestamp
     @Column(name = "created_at", updatable = false, nullable = false)
-    private LocalDate createdAt;
+    private LocalDateTime createdAt;
 }

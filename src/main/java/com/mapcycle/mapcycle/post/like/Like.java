@@ -1,7 +1,7 @@
 package com.mapcycle.mapcycle.post.like;
 
-import com.mapcycle.mapcycle.user.User;
 import com.mapcycle.mapcycle.post.Post;
+import com.mapcycle.mapcycle.user.User;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
@@ -10,7 +10,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Data
 @NoArgsConstructor
@@ -18,7 +18,6 @@ import java.time.LocalDate;
 @Builder
 @Entity
 @Table(name = "likes",
-        // Ensures that a user can only like the same post once.
         uniqueConstraints = {
                 @UniqueConstraint(columnNames = {"user_id", "post_id"})
         }
@@ -29,17 +28,11 @@ public class Like {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    /**
-     * The user who performed the like action.
-     */
     @NotNull
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
-    /**
-     * The post that was liked.
-     */
     @NotNull
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "post_id", nullable = false)
@@ -47,5 +40,5 @@ public class Like {
 
     @CreationTimestamp
     @Column(name = "created_at", updatable = false, nullable = false)
-    private LocalDate createdAt;
+    private LocalDateTime createdAt;
 }

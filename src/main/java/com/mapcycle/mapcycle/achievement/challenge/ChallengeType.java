@@ -1,4 +1,4 @@
-package com.mapcycle.mapcycle.challenge;
+package com.mapcycle.mapcycle.achievement.challenge;
 
 public enum ChallengeType {
     DISTANCE,        // Challenge based on total distance

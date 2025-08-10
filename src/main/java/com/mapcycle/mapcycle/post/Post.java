@@ -1,6 +1,5 @@
 package com.mapcycle.mapcycle.post;
 
-
 import com.mapcycle.mapcycle.post.comment.Comment;
 import com.mapcycle.mapcycle.post.like.Like;
 import com.mapcycle.mapcycle.route.Route;
@@ -15,7 +14,7 @@ import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.CreationTimestamp;
 
 import java.math.BigDecimal;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -36,7 +35,6 @@ public class Post {
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
-    // Assuming ride_id links to the Route entity created previously
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "ride_id")
     private Route ride;
@@ -68,13 +66,11 @@ public class Post {
 
     @CreationTimestamp
     @Column(name = "created_at", updatable = false, nullable = false)
-    private LocalDate createdAt;
+    private LocalDateTime createdAt;
 
-    // Bidirectional relationship to Likes
     @OneToMany(mappedBy = "post", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Like> likes = new ArrayList<>();
 
-    // Bidirectional relationship to Comments
     @OneToMany(mappedBy = "post", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Comment> comments = new ArrayList<>();
 }

@@ -1,35 +1,31 @@
 package com.mapcycle.mapcycle.leaderboard;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Map;
 
 @RestController
 @RequestMapping("api/leaderboard")
+@RequiredArgsConstructor
 public class LeaderboardController {
 
-    @Autowired
-    LeaderboardService leaderboardService;
+    private final LeaderboardService leaderboardService;
 
-    @GetMapping("/distance/{period}")
-    public ResponseEntity<List<Map<String, Object>>> getLeaderboardByDistance(@PathVariable int period) {
-        return ResponseEntity.ok(leaderboardService.getDistanceLeaderboard(period));
+    @GetMapping("/distance/{days}")
+    public ResponseEntity<List<Map<String, Object>>> getLeaderboardByDistance(@PathVariable int days) {
+        return ResponseEntity.ok(leaderboardService.getDistanceLeaderboard(days));
     }
 
-    @GetMapping("/speed/{period}")
-    public ResponseEntity<List<Map<String, Object>>> getLeaderboardBySpeed(@PathVariable int period) {
-        return ResponseEntity.ok(leaderboardService.getSpeedLeaderboard(period));
+    @GetMapping("/speed/{days}")
+    public ResponseEntity<List<Map<String, Object>>> getLeaderboardBySpeed(@PathVariable int days) {
+        return ResponseEntity.ok(leaderboardService.getSpeedLeaderboard(days));
     }
 
-    @GetMapping("/challenges/{period}")
-    public ResponseEntity<List<Map<String, Object>>> getLeaderboardByChallenges(@PathVariable int period) {
-        return ResponseEntity.ok(leaderboardService.getChallengesLeaderboard(period));
+    @GetMapping("/challenges/{days}")
+    public ResponseEntity<List<Map<String, Object>>> getLeaderboardByChallenges(@PathVariable int days) {
+        return ResponseEntity.ok(leaderboardService.getChallengesLeaderboard(days));
     }
-
 }

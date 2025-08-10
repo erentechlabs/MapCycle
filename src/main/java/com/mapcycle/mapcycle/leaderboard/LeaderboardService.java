@@ -4,7 +4,7 @@ import com.mapcycle.mapcycle.ride.Ride;
 import com.mapcycle.mapcycle.user.User;
 import com.mapcycle.mapcycle.ride.RideRepository;
 import com.mapcycle.mapcycle.user.challenge.UserChallengeRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -15,14 +15,11 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 @Service
+@RequiredArgsConstructor
 public class LeaderboardService {
 
-    @Autowired
-    RideRepository rideRepository;
-
-    @Autowired
-    UserChallengeRepository userChallengeRepository;
-
+    private final RideRepository rideRepository;
+    private final UserChallengeRepository userChallengeRepository;
 
     public List<Map<String, Object>> getDistanceLeaderboard(int days) {
         LocalDate startDate = LocalDate.now().minusDays(days);
@@ -30,8 +27,10 @@ public class LeaderboardService {
 
         return rides.stream()
                 .filter(ride -> !ride.getStartedAt().isBefore(startDate))
-                .collect(Collectors.groupingBy(Ride::getUser,
-                        Collectors.reducing(BigDecimal.ZERO, Ride::getDistance, BigDecimal::add)))
+                .collect(Collectors.groupingBy(
+                        Ride::getUser,
+                        Collectors.reducing(BigDecimal.ZERO, Ride::getDistance, BigDecimal::add)
+                ))
                 .entrySet().stream()
                 .sorted(Map.Entry.<User, BigDecimal>comparingByValue().reversed())
                 .map(e -> {
@@ -44,16 +43,19 @@ public class LeaderboardService {
                 .collect(Collectors.toList());
     }
 
-
     public List<Map<String, Object>> getSpeedLeaderboard(int days) {
         LocalDate startDate = LocalDate.now().minusDays(days);
         List<Object[]> data = rideRepository.findLeaderboardByAverageSpeed(startDate);
 
         return data.stream()
-                .map(row -> Map.of(
-                        "userId", ((User) row[0]).getId(),
-                        "username", ((User) row[0]).getUsername(),
-                        "averageSpeed", row[1]))
+                .map(row -> {
+                    Map<String, Object> map = new HashMap<>();
+                    User user = (User) row[0];
+                    map.put("userId", user.getId());
+                    map.put("username", user.getUsername());
+                    map.put("averageSpeed", row[1]);
+                    return map;
+                })
                 .collect(Collectors.toList());
     }
 
@@ -62,10 +64,14 @@ public class LeaderboardService {
         List<Object[]> data = userChallengeRepository.findLeaderboardByCompletedChallenges(startDate);
 
         return data.stream()
-                .map(row -> Map.of(
-                        "userId", ((User) row[0]).getId(),
-                        "username", ((User) row[0]).getUsername(),
-                        "completedChallenges", row[1]))
+                .map(row -> {
+                    Map<String, Object> map = new HashMap<>();
+                    User user = (User) row[0];
+                    map.put("userId", user.getId());
+                    map.put("username", user.getUsername());
+                    map.put("completedChallenges", row[1]);
+                    return map;
+                })
                 .collect(Collectors.toList());
     }
 }

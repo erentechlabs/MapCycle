@@ -1,7 +1,7 @@
 package com.mapcycle.mapcycle.route;
 
 import jakarta.validation.Valid;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -12,13 +12,13 @@ import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/routes")
+@RequiredArgsConstructor
 public class RouteController {
 
-    @Autowired
-    private RouteService routeService;
+    private final RouteService routeService;
 
-    @Autowired
-    private RouteMapper routeMapper;
+    private final RouteMapper routeMapper;
+
 
     @GetMapping("/{id}")
     public ResponseEntity<RouteDto> getRoute(@PathVariable Long id) {
@@ -32,22 +32,27 @@ public class RouteController {
             @RequestParam("lon") BigDecimal longitude,
             @RequestParam(value = "radius", defaultValue = "5.0") BigDecimal radiusKm) {
 
-        List<Route> routes = routeService.findNearbyRoutes(latitude, longitude, radiusKm);
-        List<RouteDto> routeDtos = routes.stream().map(routeMapper::toDto).collect(Collectors.toList());
+        List<RouteDto> routeDtos = routeService
+                .findNearbyRoutes(latitude, longitude, radiusKm)
+                .stream()
+                .map(routeMapper::toDto)
+                .collect(Collectors.toList());
         return ResponseEntity.ok(routeDtos);
     }
 
     @GetMapping("/recommendations")
     public ResponseEntity<List<RouteDto>> getRouteRecommendations() {
-        List<Route> routes = routeService.getRecommendations();
-        List<RouteDto> routeDtos = routes.stream().map(routeMapper::toDto).collect(Collectors.toList());
+        List<RouteDto> routeDtos = routeService
+                .getRecommendations()
+                .stream()
+                .map(routeMapper::toDto)
+                .collect(Collectors.toList());
         return ResponseEntity.ok(routeDtos);
     }
 
     @PostMapping
     public ResponseEntity<RouteDto> createRoute(@Valid @RequestBody RouteDto routeDto) {
-        Route routeToCreate = routeMapper.toEntity(routeDto);
-        Route createdRoute = routeService.createRoute(routeToCreate, routeDto.getCreatedById());
+        Route createdRoute = routeService.createRoute(routeMapper.toEntity(routeDto), routeDto.getCreatedById());
         return new ResponseEntity<>(routeMapper.toDto(createdRoute), HttpStatus.CREATED);
     }
 

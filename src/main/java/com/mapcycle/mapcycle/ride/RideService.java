@@ -4,7 +4,6 @@ import com.mapcycle.mapcycle.user.User;
 import com.mapcycle.mapcycle.user.UserRepository;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -16,18 +15,12 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class RideService {
 
-    @Autowired
-    RideRepository rideRepository;
-
-    @Autowired
-    UserRepository userRepository;
-
-
-    @Autowired
-    RideMapper rideMapper;
-
+    private final RideRepository rideRepository;
+    private final UserRepository userRepository;
+    private final RideMapper rideMapper;
 
     // Get all rides
+    @Transactional(readOnly = true)
     public List<RideDto> getAllRides() {
         return rideRepository.findAll()
                 .stream()
@@ -35,29 +28,29 @@ public class RideService {
                 .collect(Collectors.toList());
     }
 
-
-    // Get a specific ride by ID
+    // Get a single ride
+    @Transactional(readOnly = true)
     public RideDto getRideById(Long id) {
         Ride ride = rideRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Ride not found with ID: " + id));
         return rideMapper.toDto(ride);
     }
 
-
+    // Create
     @Transactional
     public RideDto createRide(RideDto dto) {
         User user = userRepository.findById(dto.getUserId())
                 .orElseThrow(() -> new EntityNotFoundException("User not found with ID: " + dto.getUserId()));
 
         Ride ride = rideMapper.toEntityWithUser(dto, user);
-
         Ride saved = rideRepository.save(ride);
         return rideMapper.toDto(saved);
     }
 
+    // Update
     @Transactional
     public RideDto updateRide(Long id, RideDto dto) {
-        Ride ride = rideRepository.findById(id)
+        Ride existing = rideRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Ride not found with ID: " + id));
 
         User user = userRepository.findById(dto.getUserId())
@@ -65,14 +58,14 @@ public class RideService {
 
         Ride updated = rideMapper.toEntityWithUser(dto, user);
         updated.setId(id);
+        // preserve createdAt from existing record
+        updated.setCreatedAt(existing.getCreatedAt());
 
         Ride saved = rideRepository.save(updated);
         return rideMapper.toDto(saved);
     }
 
-
-
-    // Delete a ride
+    // Delete
     @Transactional
     public void deleteRide(Long id) {
         Ride ride = rideRepository.findById(id)
@@ -80,25 +73,25 @@ public class RideService {
         rideRepository.delete(ride);
     }
 
-
+    // Stats for a user
+    @Transactional(readOnly = true)
     public RideStats getRideStats(Long userId) {
         List<Ride> rides = rideRepository.findByUserId(userId);
 
         BigDecimal totalDistance = rides.stream()
-                .map(Ride::getDistance)
+                .map(r -> r.getDistance() == null ? BigDecimal.ZERO : r.getDistance())
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
 
         long totalDuration = rides.stream()
-                .mapToLong(Ride::getDuration)
+                .mapToLong(r -> r.getDuration() == null ? 0L : r.getDuration())
                 .sum();
 
         int totalCalories = rides.stream()
-                .mapToInt(Ride::getCaloriesBurned)
+                .mapToInt(r -> r.getCaloriesBurned() == null ? 0 : r.getCaloriesBurned())
                 .sum();
 
         return new RideStats(totalDistance, totalDuration, totalCalories);
     }
-
 
     public record RideStats(BigDecimal totalDistance, long totalDuration, int totalCalories) {
     }

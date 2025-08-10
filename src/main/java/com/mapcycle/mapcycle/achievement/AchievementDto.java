@@ -1,8 +1,6 @@
 package com.mapcycle.mapcycle.achievement;
 
 import com.mapcycle.mapcycle.user.achievement.AchievementType;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
@@ -13,7 +11,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Data
 @Builder
@@ -21,9 +19,7 @@ import java.time.LocalDate;
 @AllArgsConstructor
 public class AchievementDto {
 
-    @NotNull(message = "ID cannot be null")
-    @Positive(message = "ID must be a positive number")
-    private Long id;
+    private Long id; // Create işlemlerinde null olabilir, bu yüzden @NotNull kaldırıldı.
 
     @NotBlank(message = "Achievement name cannot be blank.")
     @Size(max = 255, message = "Name cannot exceed 255 characters")
@@ -32,12 +28,9 @@ public class AchievementDto {
     @NotBlank(message = "Description cannot be blank.")
     private String description;
 
-    // Assuming iconUrl can be optional, but if present should be a valid URL format.
-    // For strict validation, you could use @URL or a custom pattern.
     private String iconUrl;
 
     @NotNull(message = "Achievement type must be specified.")
-    @Enumerated(EnumType.STRING)
     private AchievementType achievementType;
 
     @NotNull(message = "Requirement value must be specified.")
@@ -49,5 +42,5 @@ public class AchievementDto {
     private Integer points;
 
     @NotNull(message = "Creation date cannot be null")
-    private LocalDate createdAt;
+    private LocalDateTime createdAt;
 }

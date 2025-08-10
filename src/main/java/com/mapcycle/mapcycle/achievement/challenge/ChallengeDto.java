@@ -1,4 +1,4 @@
-package com.mapcycle.mapcycle.challenge;
+package com.mapcycle.mapcycle.achievement.challenge;
 
 import jakarta.validation.constraints.*;
 import lombok.AllArgsConstructor;
@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Data
 @Builder
@@ -45,5 +46,5 @@ public class ChallengeDto {
 
     private boolean isActive;
 
-    private LocalDate createdAt;
+    private LocalDateTime createdAt;
 }

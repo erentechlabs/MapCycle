@@ -1,24 +1,30 @@
 package com.mapcycle.mapcycle.achievement;
 
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("api/achievements")
+@RequiredArgsConstructor
 public class AchievementController {
+
+    private final AchievementService achievementService;
+
     @GetMapping
-    public String getAchievements() {
-        return "Get All Achievements";
+    public ResponseEntity<List<AchievementDto>> getAchievements() {
+        return ResponseEntity.ok(achievementService.getAllAchievements());
     }
 
     @GetMapping("/user")
-    public String getUserAchievements() {
-        return "Get User Achievements";
+    public ResponseEntity<List<AchievementDto>> getUserAchievements() {
+        return ResponseEntity.ok(achievementService.getUserAchievements());
     }
 
-    @GetMapping("progress")
-    public String getAchievementProgress() {
-        return "Get Achievement Progress";
+    @GetMapping("/progress")
+    public ResponseEntity<List<AchievementDto>> getAchievementProgress() {
+        return ResponseEntity.ok(achievementService.getAchievementProgress());
     }
 }

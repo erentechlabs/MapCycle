@@ -1,4 +1,4 @@
-package com.mapcycle.mapcycle.challenge;
+package com.mapcycle.mapcycle.achievement.challenge;
 
 import org.mapstruct.Mapper;
 

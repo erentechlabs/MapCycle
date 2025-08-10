@@ -15,15 +15,13 @@ import java.time.LocalDate;
 @AllArgsConstructor
 public class RouteDto {
 
-    @NotNull(message = "ID cannot be null")
-    @Positive(message = "ID must be a positive number")
+    @Null(message = "ID must be null when creating a route")
     private Long id;
 
     @NotNull(message = "Creator ID cannot be null")
-    @Positive(message = "Creator ID must be a positive number")
+    @Positive(message = "Creator ID must be positive")
     private Long createdById;
 
-    @NotBlank(message = "Creator username cannot be blank")
     private String createdByUsername;
 
     @NotBlank(message = "Name is required")
@@ -34,50 +32,48 @@ public class RouteDto {
     private String description;
 
     @NotNull(message = "Difficulty level is required")
-    @Min(value = 1, message = "Difficulty level must be at least 1")
-    @Max(value = 5, message = "Difficulty level must be at most 5")
+    @Min(value = 1, message = "Difficulty must be at least 1")
+    @Max(value = 5, message = "Difficulty must be at most 5")
     private Integer difficultyLevel;
 
-    @Positive(message = "Estimated duration must be a positive number")
+    @Positive(message = "Estimated duration must be positive")
     private Integer estimatedDuration;
 
-    @Positive(message = "Distance must be a positive number")
+    @Positive(message = "Distance must be positive")
     private BigDecimal distance;
 
     @NotNull(message = "Start latitude is required")
-    @DecimalMin(value = "-90.0", message = "Latitude must be greater than or equal to -90")
-    @DecimalMax(value = "90.0", message = "Latitude must be less than or equal to 90")
+    @DecimalMin(value = "-90.0")
+    @DecimalMax(value = "90.0")
     private BigDecimal startLatitude;
 
     @NotNull(message = "Start longitude is required")
-    @DecimalMin(value = "-180.0", message = "Longitude must be greater than or equal to -180")
-    @DecimalMax(value = "180.0", message = "Longitude must be less than or equal to 180")
+    @DecimalMin(value = "-180.0")
+    @DecimalMax(value = "180.0")
     private BigDecimal startLongitude;
 
-    @DecimalMin(value = "-90.0", message = "Latitude must be greater than or equal to -90")
-    @DecimalMax(value = "90.0", message = "Latitude must be less than or equal to 90")
+    @DecimalMin(value = "-90.0")
+    @DecimalMax(value = "90.0")
     private BigDecimal endLatitude;
 
-    @DecimalMin(value = "-180.0", message = "Longitude must be greater than or equal to -180")
-    @DecimalMax(value = "180.0", message = "Longitude must be less than or equal to 180")
+    @DecimalMin(value = "-180.0")
+    @DecimalMax(value = "180.0")
     private BigDecimal endLongitude;
 
     private String waypoints;
 
     private String polyline;
 
-    @NotNull(message = "Rating cannot be null")
-    @DecimalMin(value = "0.0", message = "Rating must be non-negative")
-    @DecimalMax(value = "5.0", message = "Rating cannot be greater than 5")
+    @DecimalMin(value = "0.0")
+    @DecimalMax(value = "5.0")
     private BigDecimal rating;
 
-    @NotNull(message = "Usage count cannot be null")
-    @PositiveOrZero(message = "Usage count must be non-negative")
+    @PositiveOrZero
     private Integer usageCount;
 
-    @NotNull(message = "Public status cannot be null")
+    @NotNull
     private Boolean isPublic;
 
-    @NotNull(message = "Creation date cannot be null")
+    @Null(message = "Creation date is generated automatically")
     private LocalDate createdAt;
 }

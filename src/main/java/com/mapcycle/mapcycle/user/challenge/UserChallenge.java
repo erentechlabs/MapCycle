@@ -1,7 +1,7 @@
 package com.mapcycle.mapcycle.user.challenge;
 
 
-import com.mapcycle.mapcycle.challenge.Challenge;
+import com.mapcycle.mapcycle.achievement.challenge.Challenge;
 import com.mapcycle.mapcycle.user.User;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;

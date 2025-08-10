@@ -11,11 +11,10 @@ import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
 
 import java.math.BigDecimal;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 /**
  * JPA Entity class representing the 'rides' table.
- * It records individual ride activities performed by users.
  */
 @Data
 @Builder
@@ -34,19 +33,19 @@ public class Ride {
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
-    @Column(name = "title")
+    @Column(name = "title", length = 255)
     private String title;
 
     @Column(name = "distance", precision = 10, scale = 2)
     private BigDecimal distance;
 
-    @Column(name = "duration")
-    private Long duration; // in seconds
+    @Column(name = "duration") // seconds
+    private Long duration;
 
-    @Column(name = "average_speed", precision = 5, scale = 2)
+    @Column(name = "average_speed", precision = 6, scale = 2)
     private BigDecimal averageSpeed;
 
-    @Column(name = "max_speed", precision = 5, scale = 2)
+    @Column(name = "max_speed", precision = 6, scale = 2)
     private BigDecimal maxSpeed;
 
     @Column(name = "calories_burned")
@@ -71,14 +70,14 @@ public class Ride {
     private String routePolyline;
 
     @PastOrPresent
-    @Column(name = "started_at")
-    private LocalDate startedAt;
+    @Column(name = "started_at", nullable = false)
+    private LocalDateTime startedAt;
 
     @PastOrPresent
-    @Column(name = "finished_at")
-    private LocalDate finishedAt;
+    @Column(name = "finished_at", nullable = false)
+    private LocalDateTime finishedAt;
 
     @CreationTimestamp
     @Column(name = "created_at", updatable = false, nullable = false)
-    private LocalDate createdAt;
+    private LocalDateTime createdAt;
 }

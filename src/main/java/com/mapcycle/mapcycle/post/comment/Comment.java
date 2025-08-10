@@ -1,7 +1,7 @@
 package com.mapcycle.mapcycle.post.comment;
 
-import com.mapcycle.mapcycle.user.User;
 import com.mapcycle.mapcycle.post.Post;
+import com.mapcycle.mapcycle.user.User;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
@@ -11,7 +11,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "comments")
@@ -39,6 +39,6 @@ public class Comment {
     private String content;
 
     @CreationTimestamp
-    @Column(name = "created_at", updatable = false)
-    private LocalDate createdAt;
+    @Column(name = "created_at", updatable = false, nullable = false)
+    private LocalDateTime createdAt;
 }

@@ -1,49 +1,68 @@
 package com.mapcycle.mapcycle.post;
 
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import com.mapcycle.mapcycle.post.comment.CommentDto;
+import com.mapcycle.mapcycle.user.User;
+import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("api/posts")
+@RequiredArgsConstructor
 public class PostController {
 
-    @GetMapping("/freed")
-    public String getFreed() {
-        return "Get Freed";
+    private final PostService postService;
+
+    @GetMapping("/feed")
+    public ResponseEntity<Page<PostDto>> getFeed(Pageable pageable) {
+        return ResponseEntity.ok(postService.getFeed(pageable));
     }
 
     @PostMapping
-    public String createPost() {
-        return "Endpoint for creating a new post";
+    public ResponseEntity<PostDto> createPost(@Valid @RequestBody PostDto postDto,
+                                              @AuthenticationPrincipal User currentUser) {
+        PostDto createdPost = postService.createPost(postDto, currentUser);
+        return new ResponseEntity<>(createdPost, HttpStatus.CREATED);
     }
 
     @PutMapping("/{id}")
-    public String updatePost(@PathVariable Long id) {
-        return "Endpoint for updating post with ID: " + id;
+    public ResponseEntity<PostDto> updatePost(@PathVariable Long id,
+                                              @Valid @RequestBody PostDto postDto,
+                                              @AuthenticationPrincipal User currentUser) {
+        return ResponseEntity.ok(postService.updatePost(id, postDto, currentUser));
     }
 
     @DeleteMapping("/{id}")
-    public String deletePost(@PathVariable Long id) {
-        return "Endpoint for deleting post with ID: " + id;
+    public ResponseEntity<Void> deletePost(@PathVariable Long id,
+                                           @AuthenticationPrincipal User currentUser) {
+        postService.deletePost(id, currentUser);
+        return ResponseEntity.noContent().build();
     }
 
     @PostMapping("/{id}/like")
-    public String likePost(@PathVariable Long id) {
-        return "Endpoint for liking post with ID: " + id;
+    public ResponseEntity<Void> likePost(@PathVariable Long id,
+                                         @AuthenticationPrincipal User currentUser) {
+        postService.toggleLike(id, currentUser);
+        return ResponseEntity.ok().build();
     }
 
     @GetMapping("/{id}/comments")
-    public String getComments(@PathVariable Long id) {
-        return "Endpoint for getting comments for post with ID: " + id;
+    public ResponseEntity<List<CommentDto>> getComments(@PathVariable Long id) {
+        return ResponseEntity.ok(postService.getComments(id));
     }
 
     @PostMapping("/{id}/comments")
-    public String createComment(@PathVariable Long id) {
-        return "Endpoint for creating a comment on post with ID: " + id;
+    public ResponseEntity<CommentDto> createComment(@PathVariable Long id,
+                                                    @Valid @RequestBody CommentDto commentDto,
+                                                    @AuthenticationPrincipal User currentUser) {
+        CommentDto createdComment = postService.createComment(id, commentDto, currentUser);
+        return new ResponseEntity<>(createdComment, HttpStatus.CREATED);
     }
 }

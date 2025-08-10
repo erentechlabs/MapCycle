@@ -2,7 +2,6 @@ package com.mapcycle.mapcycle.route;
 
 import com.mapcycle.mapcycle.user.User;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -29,28 +28,24 @@ public class Route {
     private User createdBy;
 
     @Column(nullable = false, length = 100)
-    @NotBlank(message = "Name is required")
     private String name;
 
     @Column(columnDefinition = "TEXT")
     private String description;
 
     @Column(name = "difficulty_level")
-    @Min(value = 1, message = "Difficulty level must be at least 1")
-    @Max(value = 5, message = "Difficulty level must be at most 5")
-    @Builder.Default
-    private Integer difficultyLevel = 1;
+    private Integer difficultyLevel;
 
     @Column(name = "estimated_duration")
-    private Integer estimatedDuration; // in minutes
+    private Integer estimatedDuration; // minutes
 
     @Column(precision = 10, scale = 2)
-    private BigDecimal distance; // in kilometers
+    private BigDecimal distance; // km
 
-    @Column(name = "start_latitude", precision = 10, scale = 8)
+    @Column(name = "start_latitude", precision = 10, scale = 8, nullable = false)
     private BigDecimal startLatitude;
 
-    @Column(name = "start_longitude", precision = 11, scale = 8)
+    @Column(name = "start_longitude", precision = 11, scale = 8, nullable = false)
     private BigDecimal startLongitude;
 
     @Column(name = "end_latitude", precision = 10, scale = 8)
@@ -60,22 +55,19 @@ public class Route {
     private BigDecimal endLongitude;
 
     @Column(columnDefinition = "TEXT")
-    private String waypoints; // JSON array of coordinates
+    private String waypoints;
 
     @Column(columnDefinition = "TEXT")
-    private String polyline; // Encoded polyline
+    private String polyline;
 
     @Column(precision = 3, scale = 2)
-    @Builder.Default
-    private BigDecimal rating = BigDecimal.ZERO;
+    private BigDecimal rating;
 
     @Column(name = "usage_count")
-    @Builder.Default
-    private Integer usageCount = 0;
+    private Integer usageCount;
 
     @Column(name = "is_public")
-    @Builder.Default
-    private Boolean isPublic = true;
+    private Boolean isPublic;
 
     @CreationTimestamp
     @Column(name = "created_at", updatable = false)

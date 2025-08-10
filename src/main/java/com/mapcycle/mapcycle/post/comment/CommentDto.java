@@ -9,7 +9,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Data
 @Builder
@@ -23,17 +23,16 @@ public class CommentDto {
     @Positive(message = "Post ID must be a positive number")
     private Long postId;
 
-    @NotNull(message = "User ID cannot be null")
-    @Positive(message = "User ID must be a positive number")
+    // userId may not be supplied by the client when creating a comment
+    // because we typically take it from the authenticated principal.
     private Long userId;
 
-    @NotBlank(message = "Username cannot be blank")
-    @Size(min = 3, max = 50, message = "Username must be between 3 and 50 characters")
+    // Username is sent in responses; not required in create requests.
     private String username;
 
     @NotBlank(message = "Content cannot be blank")
     @Size(max = 1000, message = "Comment cannot exceed 1000 characters")
     private String content;
 
-    private LocalDate createdAt;
+    private LocalDateTime createdAt;
 }
