@@ -1,6 +1,6 @@
 package com.mapcycle.mapcycle.shared.security;
 
-import com.mapcycle.mapcycle.user.User;
+import com.mapcycle.mapcycle.models.entities.User;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -8,15 +8,8 @@ import org.springframework.security.core.userdetails.UserDetails;
 import java.util.Collection;
 import java.util.Collections;
 
-public class UserPrincipal implements UserDetails {
+public record UserPrincipal(User user) implements UserDetails {
 
-    private User user;
-
-    public UserPrincipal(User user) {
-        this.user = user;
-    }
-
-    // Get the user's authorities
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return Collections.singleton(new SimpleGrantedAuthority("USER"));
@@ -49,6 +42,6 @@ public class UserPrincipal implements UserDetails {
 
     @Override
     public boolean isEnabled() {
-        return true;
+        return user.getIsActive();
     }
 }
