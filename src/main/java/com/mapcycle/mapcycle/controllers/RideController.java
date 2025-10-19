@@ -14,7 +14,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 @RestController
-@RequestMapping(value = "/api/rides", produces = MediaType.APPLICATION_JSON_VALUE)
+@RequestMapping(value = "/api/v1/rides", produces = MediaType.APPLICATION_JSON_VALUE)
 @RequiredArgsConstructor
 public class RideController {
 

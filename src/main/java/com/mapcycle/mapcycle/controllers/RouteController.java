@@ -12,7 +12,7 @@ import java.net.URI;
 import java.util.List;
 
 @RestController
-@RequestMapping(value = "/api/routes", produces = MediaType.APPLICATION_JSON_VALUE)
+@RequestMapping(value = "/api/v1/routes", produces = MediaType.APPLICATION_JSON_VALUE)
 @RequiredArgsConstructor
 public class RouteController {
 
